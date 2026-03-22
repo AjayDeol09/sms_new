@@ -1,0 +1,33 @@
+{% extends "a1.html" %}
+{% block m1 %}
+<h1>Admin List</h1>
+{% if data1 %}
+    {% for k in data1 %}
+    <div style="margin-bottom:16px;"><img src="../media/{{k.Photo}}" width="80" height="80" style="border-radius:50%;border:3px solid rgba(98,89,202,0.3);"/></div>
+    {% endfor %}
+{% endif %}
+{% if data %}
+    {% for k in data %}
+    <div style="background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 16px rgba(0,0,0,0.06);margin-bottom:14px;border-left:4px solid #6259ca;max-width:600px;">
+        <table style="box-shadow:none;border-radius:0;margin-bottom:12px;">
+            <tr><td style="width:120px;font-weight:600;color:#555;font-size:0.85rem;">Name</td><td style="font-size:0.88rem;">{{k.Name}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Address</td><td style="font-size:0.88rem;">{{k.Address}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Contact</td><td style="font-size:0.88rem;">{{k.Contact}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Email</td><td style="font-size:0.88rem;">{{k.Email}}</td></tr>
+        </table>
+        <div style="display:flex;gap:10px;">
+            <form method="post" action="../edit_admin/">
+                {% csrf_token %}
+                <input type="hidden" name="H1" value="{{k.Email}}">
+                <button type="submit" name="B1" style="background:#6259ca;font-size:0.82rem;padding:8px 16px;"><i class="fas fa-edit me-1"></i> Edit</button>
+            </form>
+            <form method="post" action="../delete_admin/">
+                {% csrf_token %}
+                <input type="hidden" name="H1" value="{{k.Email}}">
+                <button type="submit" name="B1" style="background:#e85347;font-size:0.82rem;padding:8px 16px;"><i class="fas fa-trash me-1"></i> Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,256 @@
+{% extends "a1.html" %}
+{% block m1 %}
+
+<!-- ── Fullscreen Width Override ── -->
+<style>
+  /* Main content wrapper ko full width karo */
+  .main-content,
+  .content-wrapper,
+  .page-content,
+  #main-content,
+  #content,
+  .container,
+  .container-fluid,
+  .container-lg,
+  .container-xl,
+  .container-xxl {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+</style>
+
+<!-- ── Chart.js (required for dashboard charts) ── -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- ══════════════════════════════════════════════
+     ORIGINAL BLOCK (unchanged)
+══════════════════════════════════════════════════ -->
+<div  style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:28px;">
+  <div style="background:#fff;border-radius:14px;padding:24px;box-shadow:0 4px 20px rgba(98,89,202,0.1);border-left:4px solid #6259ca;display:flex;align-items:center;gap:16px;">
+    <div style="width:52px;height:52px;background:rgba(98,89,202,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-user-graduate" style="color:#6259ca;font-size:1.4rem;"></i></div>
+<div>
+  <p style="color:#888;font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin:0;">Students</p>
+  <a href="/show_student_admin/" style="text-decoration:none;">
+    <h3 style="color:#1a1a2e;font-size:1.5rem;font-weight:700;margin:0;">Manage</h3>
+  </a>
+</div>
+  </div>
+  <div style="background:#fff;border-radius:14px;padding:24px;box-shadow:0 4px 20px rgba(98,89,202,0.1);border-left:4px solid #6259ca;display:flex;align-items:center;gap:16px;">
+    <div style="width:52px;height:52px;background:rgba(98,89,202,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-user-graduate" style="color:#6259ca;font-size:1.4rem;"></i></div>
+<div>
+  <p style="color:#888;font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin:0;">Operator</p>
+  <a href="/show_student_admin/" style="text-decoration:none;">
+    <h3 style="color:#1a1a2e;font-size:1.5rem;font-weight:700;margin:0;">Manage</h3>
+  </a>
+</div>
+  </div>
+  <div style="background:#fff;border-radius:14px;padding:24px;box-shadow:0 4px 20px rgba(98,89,202,0.1);border-left:4px solid #6259ca;display:flex;align-items:center;gap:16px;">
+    <div style="width:52px;height:52px;background:rgba(98,89,202,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-user-graduate" style="color:#6259ca;font-size:1.4rem;"></i></div>
+<div>
+  <p style="color:#888;font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin:0;">Courses</p>
+  <a href="/show_courses/" style="text-decoration:none;">
+    <h3 style="color:#1a1a2e;font-size:1.5rem;font-weight:700;margin:0;">Manage</h3>
+  </a>
+</div>
+  </div>
+</div>
+<h1>Admin Home</h1>
+
+<!-- ── Welcome Message Block ── -->
+<div style="background:linear-gradient(135deg,#6259ca15,#4facfe15);border-radius:14px;padding:20px 28px;margin-bottom:24px;border-left:4px solid #6259ca;display:flex;align-items:center;gap:16px;">
+  <div style="width:48px;height:48px;background:linear-gradient(135deg,#6259ca,#4facfe);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+    <i class="fas fa-user-shield" style="color:#fff;font-size:1.2rem;"></i>
+  </div>
+  <div>
+    {% if is_first_login %}
+      <h4 style="margin:0;color:#1a1a2e;font-size:1.15rem;font-weight:700;">
+        👋 Welcome, <span style="color:#6259ca;">{{ admin_name }}</span>!
+      </h4>
+      <p style="margin:4px 0 0;color:#888;font-size:0.85rem;"> Glad to have you here — let’s get started 🎉</p>
+    {% else %}
+      <h4 style="margin:0;color:#1a1a2e;font-size:1.15rem;font-weight:700;">
+        👋 Welcome Back, <span style="color:#6259ca;">{{ admin_name }}</span>!
+      </h4>
+      <p style="margin:4px 0 0;color:#888;font-size:0.85rem;">
+        Back again? Let’s keep moving forward.
+<!--        <span style="color:#6259ca;font-size:0.82rem;">{{ request.user.last_login|date:"d M Y, h:i A" }}</span>-->
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ADMIN DASHBOARD (from admin_dashboard.html)
+══════════════════════════════════════════════════ -->
+
+<!-- ── SUMMARY CARDS ──────────────────────────────────────── -->
+<div class="row g-3 mb-4 mt-3" id="summary-cards">
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100 card-hover">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-circle bg-primary bg-opacity-10 p-3">
+          <i class="fa fa-users fa-lg text-primary"></i>
+        </div>
+        <div>
+          <div class="text-muted small">Total Students</div>
+          <div class="fs-4 fw-bold" id="card-students">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100 card-hover">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-circle bg-success bg-opacity-10 p-3">
+          <i class="fa fa-rupee-sign fa-lg text-success"></i>
+        </div>
+        <div>
+          <div class="text-muted small">Total Collected</div>
+          <div class="fs-4 fw-bold" id="card-collected">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100 card-hover">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-circle bg-danger bg-opacity-10 p-3">
+          <i class="fa fa-exclamation-triangle fa-lg text-danger"></i>
+        </div>
+        <div>
+          <div class="text-muted small">Total Due</div>
+          <div class="fs-4 fw-bold" id="card-due">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100 card-hover">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="rounded-circle bg-warning bg-opacity-10 p-3">
+          <i class="fa fa-book fa-lg text-warning"></i>
+        </div>
+        <div>
+          <div class="text-muted small">Total Courses</div>
+          <div class="fs-4 fw-bold" id="card-courses">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CHARTS ROW ──────────────────────────────────────────── -->
+<div class="row g-3 mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-transparent border-0 fw-semibold">
+        <i class="fa fa-chart-bar me-2 text-primary"></i>Students per Course
+      </div>
+      <div class="card-body">
+        <canvas id="courseChart" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-transparent border-0 fw-semibold">
+        <i class="fa fa-chart-line me-2 text-success"></i>Monthly Fee Collection
+      </div>
+      <div class="card-body">
+        <canvas id="feeChart" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── QUICK ACTIONS ───────────────────────────────────────── -->
+<div class="row g-3">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-transparent border-0 fw-semibold">
+        <i class="fa fa-bolt me-2 text-warning"></i>Quick Actions
+      </div>
+      <div class="card-body d-flex flex-wrap gap-2">
+        <a href="/student_reg_admin/"      class="btn btn-outline-primary btn-sm"><i class="fa fa-user-plus me-1"></i>Add Student</a>
+        <a href="/mark_attendance/"        class="btn btn-outline-success btn-sm"><i class="fa fa-calendar-check me-1"></i>Mark Attendance</a>
+        <a href="/send_fee_reminder/"      class="btn btn-outline-danger btn-sm"><i class="fa fa-envelope me-1"></i>Fee Reminders</a>
+        <a href="/import_students_excel/"  class="btn btn-outline-info btn-sm"><i class="fa fa-file-excel me-1"></i>Import Excel</a>
+        <a href="/download_students_excel/" class="btn btn-outline-secondary btn-sm"><i class="fa fa-download me-1"></i>Export Excel</a>
+        <a href="/post_notice/"            class="btn btn-outline-warning btn-sm"><i class="fa fa-bullhorn me-1"></i>Post Notice</a>
+        <a href="/send_custom_email/"      class="btn btn-outline-dark btn-sm"><i class="fa fa-paper-plane me-1"></i>Send Email</a>
+        <a href="/view_attendance/"        class="btn btn-outline-primary btn-sm"><i class="fa fa-table me-1"></i>Attendance Report</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Dashboard JS (from admin_dashboard.html, unchanged) ── -->
+<script>
+// ── Load Dashboard Data ──────────────────────────────────────
+fetch('/admin_dashboard_data/')
+  .then(r => r.json())
+  .then(data => {
+    // Summary cards
+    document.getElementById('card-students').textContent  = data.summary.total_students;
+    document.getElementById('card-collected').textContent = '₹' + data.summary.total_collected.toLocaleString('en-IN');
+    document.getElementById('card-due').textContent       = '₹' + data.summary.total_fees_due.toLocaleString('en-IN');
+    document.getElementById('card-courses').textContent   = data.summary.total_courses;
+
+    // Course Bar Chart
+    new Chart(document.getElementById('courseChart'), {
+      type: 'bar',
+      data: {
+        labels: data.course_labels,
+        datasets: [{
+          label: 'Students Enrolled',
+          data: data.course_counts,
+          backgroundColor: 'rgba(37,99,235,0.7)',
+          borderRadius: 6,
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    // Monthly Fee Line Chart
+    new Chart(document.getElementById('feeChart'), {
+      type: 'line',
+      data: {
+        labels: data.month_labels,
+        datasets: [{
+          label: 'Fee Collected (₹)',
+          data: data.monthly_fees,
+          borderColor: '#16a34a',
+          backgroundColor: 'rgba(22,163,74,0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+        }]
+      },
+      options: { responsive: true }
+    });
+  });
+
+// ── Load Notices ─────────────────────────────────────────────
+fetch('/get_notices/')
+  .then(r => r.json())
+  .then(data => {
+    const list  = document.getElementById('notice-list');
+    const count = document.getElementById('notice-count');
+    if (count) count.textContent = data.notices.length;
+    if (!list) return;
+    if (!data.notices.length) {
+      list.innerHTML = '<li><span class="dropdown-item-text text-muted small">No notices</span></li>';
+      return;
+    }
+    list.innerHTML = data.notices.map(n =>
+      `<li><div class="dropdown-item">
+         <div class="fw-semibold small">${n.title}</div>
+         <div class="text-muted" style="font-size:0.78rem;white-space:normal">${n.message}</div>
+       </div></li><li><hr class="dropdown-divider m-0"></li>`
+    ).join('');
+  });
+</script>
+
+{% endblock %}

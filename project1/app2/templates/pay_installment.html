@@ -1,0 +1,29 @@
+{% extends "a1.html" %}
+{% block m1 %}
+<h1>Fee Deposit</h1>
+{% if data %}{% for k in data %}
+<div style="background:#fff;border-radius:14px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.07);max-width:520px;">
+    <div style="background:rgba(98,89,202,0.06);border-radius:10px;padding:16px;margin-bottom:24px;border-left:3px solid #6259ca;">
+        <h3 style="font-size:1rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">{{k.course_id}}. {{k.course_name}}</h3>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;">
+            <span style="font-size:0.82rem;color:#555;"><strong>Fees:</strong> ₹{{k.fees}}</span>
+            <span style="font-size:0.82rem;color:#555;"><strong>Duration:</strong> {{k.duration}}</span>
+            <span style="font-size:0.82rem;color:#555;"><strong>Start:</strong> {{k.commencement_date}}</span>
+        </div>
+    </div>
+    <form method="post" action="../pay_installment_1/">
+        {% csrf_token %}
+        <div style="display:flex;flex-direction:column;gap:16px;">
+            <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Amount to Pay (₹)</label><input type="text" name="T1" placeholder="Enter amount"></div>
+            <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Remark</label><input type="text" name="T2" placeholder="Enter remark (optional)"></div>
+            <input type="hidden" name="H1" value="{{k.email}}">
+            <input type="hidden" name="H2" value="{{k.st_course_id}}">
+            <div style="display:flex;gap:12px;margin-top:8px;">
+                <input type="submit" name="B1" value="Submit Payment">
+                <a href="../admin_home/" style="background:#e2e8f0;color:#555;padding:9px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;">Back</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endfor %}{% endif %}
+{% endblock %}

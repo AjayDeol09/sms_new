@@ -1,0 +1,315 @@
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/css.bootstrap.css">
+  <script src="../static/script/jquery.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0a0a0a;
+      overflow: hidden;
+    }
+
+    section {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(#0a0a0a, #6259ca, #0a0a0a);
+      animation: animate 6s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes animate {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    section span {
+      position: relative;
+      display: block;
+      width: calc(6.25vw - 2px);
+      height: calc(6.25vw - 2px);
+      background: #0a0a0a;
+      z-index: 2;
+      transition: 1.5s;
+    }
+
+    section span:hover {
+      background: #6259ca;
+      transition: 0s;
+    }
+
+    section .signin {
+      position: absolute;
+      width: 420px;
+      background: rgba(30, 30, 45, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 48px 40px;
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(98,89,202,0.2);
+    }
+
+    section .signin .content {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .signin .content .brand {
+      text-align: center;
+    }
+
+    .signin .content .brand .icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #6259ca, #05c3fb);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(98,89,202,0.4);
+    }
+
+    .signin .content .brand .icon i {
+      font-size: 1.8rem;
+      color: #fff;
+    }
+
+    .signin .content .brand h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .signin .content .brand p {
+      font-size: 0.82rem;
+      color: #a6a6c0;
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .signin .content .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .signin .content .form .inputBox {
+      position: relative;
+      width: 100%;
+    }
+
+    .signin .content .form .inputBox .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a6a6c0;
+      font-size: 0.9rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .signin .content .form .inputBox input {
+      position: relative;
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      outline: none;
+      padding: 14px 14px 14px 42px;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 400;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+
+    .signin .content .form .inputBox input:focus {
+      border-color: #6259ca;
+      background: rgba(98,89,202,0.1);
+      box-shadow: 0 0 0 3px rgba(98,89,202,0.2);
+    }
+
+    .signin .content .form .inputBox input::placeholder {
+      color: #a6a6c0;
+    }
+
+    .signin .content .form .inputBox i.label {
+      position: absolute;
+      left: 42px;
+      padding: 15px 0;
+      font-style: normal;
+      color: #a6a6c0;
+      transition: 0.3s;
+      pointer-events: none;
+      font-size: 0.88rem;
+      top: 0;
+    }
+
+    .signin .content .form .inputBox input:focus ~ i.label,
+    .signin .content .form .inputBox input:valid ~ i.label {
+      transform: translateY(-8px) scale(0.8);
+      color: #6259ca;
+    }
+
+    .signin .content .form .links {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: -6px;
+    }
+
+    .signin .content .form .links a {
+      color: #a6a6c0;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .signin .content .form .links a:hover { color: #6259ca; }
+
+    .signin .content .form .links a:nth-child(2) {
+      color: #6259ca;
+      font-weight: 600;
+    }
+
+    .signin .content .form .inputBox input[type="submit"] {
+      padding: 14px;
+      background: linear-gradient(135deg, #6259ca, #05c3fb);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      padding-left: 14px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(98,89,202,0.4);
+    }
+
+    .signin .content .form .inputBox input[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(98,89,202,0.5);
+    }
+
+    input[type="submit"]:active { opacity: 0.85; transform: translateY(0); }
+
+    @media (max-width: 900px) { section span { width: calc(10vw - 2px); height: calc(10vw - 2px); } }
+    @media (max-width: 600px) {
+      section span { width: calc(20vw - 2px); height: calc(20vw - 2px); }
+      section .signin { width: 90%; padding: 36px 28px; }
+    }
+
+    /* Error/Message block */
+    .msg-block { margin-top: -16px; }
+    .msg-block p { color: #e85347; font-size: 0.82rem; text-align: center; background: rgba(232,83,71,0.1); border: 1px solid rgba(232,83,71,0.3); padding: 8px 14px; border-radius: 8px; }
+  </style>
+</head>
+
+<body>
+  <section>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+
+    <div class="signin">
+      <div class="content">
+
+        <div class="brand">
+          <div class="icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h2>Welcome</h2>
+          <p></p>
+        </div>
+
+        <form method="post" action="../signin/">
+          {% csrf_token %}
+          <div class="form">
+
+            <div class="inputBox">
+              <i class="fas fa-envelope input-icon"></i>
+              <input type="text" name="T1" placeholder="Email Address" required>
+            </div>
+
+            <div class="inputBox">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" name="T2" placeholder="Password" required>
+            </div>
+
+            <div class="links">
+              <a href="#">Forgot Password?</a>
+              <a href="#">Sign Up</a>
+            </div>
+
+            <div class="inputBox">
+              <input type="submit" id="s" value="Sign In">
+            </div>
+
+          </div>
+          {% block m1 %}
+          {% endblock %}
+        </form>
+
+      </div>
+    </div>
+  </section>
+</body>
+</html>

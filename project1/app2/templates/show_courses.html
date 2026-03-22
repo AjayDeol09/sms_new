@@ -1,0 +1,28 @@
+{% extends "a1.html" %}
+{% block m1 %}
+<h1>Course List</h1>
+{% if data %}
+{% for k in data %}
+<div style="background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 16px rgba(0,0,0,0.06);margin-bottom:14px;border-left:4px solid #4facfe;max-width:600px;">
+    <table style="box-shadow:none;border-radius:0;margin-bottom:12px;">
+        <tr><td style="width:130px;font-weight:600;color:#555;font-size:0.85rem;">Course ID</td><td style="font-size:0.88rem;">{{k.course_id}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Course Name</td><td style="font-size:0.88rem;font-weight:600;color:#1a1a2e;">{{k.course_name}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Fees</td><td style="font-size:0.88rem;color:#09ad95;font-weight:600;">₹{{k.fees}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Duration</td><td style="font-size:0.88rem;">{{k.duration}}</td></tr>
+    </table>
+    <div style="display:flex;gap:10px;">
+        <form method="post" action="../edit_courses/">
+            {% csrf_token %}
+            <input type="hidden" name="H1" value="{{k.course_id}}">
+            <button type="submit" name="B1" style="background:#6259ca;font-size:0.82rem;padding:8px 16px;"><i class="fas fa-edit me-1"></i> Edit</button>
+        </form>
+        <form method="post" action="../delete_courses/">
+            {% csrf_token %}
+            <input type="hidden" name="H1" value="{{k.course_id}}">
+            <button type="submit" name="B1" style="background:#e85347;font-size:0.82rem;padding:8px 16px;"><i class="fas fa-trash me-1"></i> Delete</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

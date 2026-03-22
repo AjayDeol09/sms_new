@@ -1,0 +1,54 @@
+{% extends "a1.html" %}
+{% block m1 %}
+<h1>Admin Profile</h1>
+<div style="background:#fff;border-radius:14px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.07);max-width:600px;">
+
+{% if data1 %}
+    {% for k in data1 %}
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;">
+        <img src="../media/{{k.Photo}}" width="100" height="100" style="border-radius:50%;border:3px solid rgba(98,89,202,0.3);object-fit:cover;"/>
+        <div>
+            <p style="margin:0;color:#888;font-size:0.8rem;">Profile Photo</p>
+            <a href="../change_photo_admin/" style="display:inline-block;margin-top:8px;background:#6259ca;color:#fff;padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;">
+                <i class="fas fa-camera me-1"></i> Change Photo
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <form method="post" action="../upload_photo_admin/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="margin-bottom:14px;">
+            <label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Upload Profile Photo</label>
+            <input type="file" name="F1" style="display:block;padding:8px;border:1.5px dashed #6259ca;border-radius:8px;background:rgba(98,89,202,0.04);width:100%;"/>
+        </div>
+        <input type="submit" name="B1" value="Upload Photo">
+    </form>
+{% endif %}
+
+{% if data %}
+    {% for k in data %}
+    <table style="margin-top:32px;">  <!-- ✅ Yahan space add kiya -->
+        <tr><th colspan="2">Account Information</th></tr>
+        <tr><td style="width:130px;font-weight:600;color:#555;">Name</td><td>{{k.Name}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;">Address</td><td>{{k.Address}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;">Contact</td><td>{{k.Contact}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;">Email</td><td>{{k.Email}}</td></tr>
+    </table>
+    {% endfor %}
+
+{% elif result %}
+    <div style="background:rgba(9,173,149,0.1);border:1px solid rgba(9,173,149,0.3);padding:14px 18px;border-radius:8px;color:#09ad95;font-weight:600;margin-bottom:16px;">
+        <i class="fas fa-check-circle me-2"></i> DATA SAVED SUCCESSFULLY
+    </div>
+    <a href="../admin_home/" style="background:#6259ca;color:#fff;padding:9px 20px;border-radius:8px;font-size:0.87rem;font-weight:600;text-decoration:none;">Continue</a>
+{% endif %}
+
+<div style="margin-top:16px;">
+    <a href="../admin_home/" style="background:#e2e8f0;color:#555;padding:8px 18px;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none;display:inline-block;">
+        <i class="fas fa-arrow-left me-1"></i> Back
+    </a>
+</div>
+
+</div>
+{% endblock %}

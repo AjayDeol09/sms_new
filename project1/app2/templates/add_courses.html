@@ -1,0 +1,23 @@
+{% extends "a1.html" %}
+{% block m1 %}
+<h1>Add Course to Student</h1>
+{% if data %}
+{% for k in data %}
+<div style="background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 16px rgba(0,0,0,0.06);margin-bottom:14px;border-left:4px solid #4facfe;max-width:500px;">
+    <table style="box-shadow:none;border-radius:0;margin-bottom:14px;">
+        <tr><td style="width:130px;font-weight:600;color:#555;font-size:0.85rem;">Course ID</td><td style="font-size:0.88rem;">{{k.course_id}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Course Name</td><td style="font-size:0.88rem;font-weight:600;">{{k.course_name}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Fees</td><td style="font-size:0.88rem;color:#09ad95;font-weight:600;">₹{{k.fees}}</td></tr>
+        <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Duration</td><td style="font-size:0.88rem;">{{k.duration}}</td></tr>
+    </table>
+    <form method="post" action="../add_courses_1/">
+        {% csrf_token %}
+        <input type="hidden" name="H1" value="{{email}}">
+        <input type="hidden" name="H2" value="{{k.course_id}}">
+        <button type="submit" name="B1" style="background:linear-gradient(135deg,#6259ca,#05c3fb);font-size:0.85rem;padding:9px 20px;"><i class="fas fa-plus me-1"></i> Add Course</button>
+    </form>
+</div>
+{% endfor %}
+{% endif %}
+<a href="../admin_home/" style="display:inline-flex;align-items:center;gap:6px;background:#e2e8f0;color:#555;padding:9px 18px;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none;margin-top:8px;"><i class="fas fa-arrow-left"></i> Back</a>
+{% endblock %}

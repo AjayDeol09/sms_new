@@ -1,0 +1,57 @@
+{% extends "a1.html" %}
+{% block m1 %}
+
+{% if data %}
+  <div style="background:#fff;border-radius:14px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.07);max-width:480px;">
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #f0f0f8;">
+      <div style="width:44px;height:44px;background:rgba(98,89,202,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-camera" style="color:#6259ca;font-size:1.1rem;"></i>
+      </div>
+      <div>
+        <h2 style="font-size:1.1rem;font-weight:700;color:#1a1a2e;margin:0;">Change Profile Photo</h2>
+        <p style="font-size:0.78rem;color:#09ad95;margin:0;"><i class="fas fa-check-circle me-1"></i>Old photo removed. Upload a new one.</p>
+      </div>
+    </div>
+
+    <form method="post" action="../upload_photo_admin/" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:10px;">
+          Select New Photo
+        </label>
+        <div style="border:2px dashed #6259ca;border-radius:12px;padding:28px;text-align:center;background:rgba(98,89,202,0.03);cursor:pointer;" onclick="document.getElementById('photoInput').click()">
+          <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#6259ca;margin-bottom:10px;display:block;"></i>
+          <p style="font-size:0.85rem;color:#888;margin:0 0 6px;">Click to browse photo</p>
+          <p style="font-size:0.75rem;color:#bbb;margin:0;">JPG, PNG, GIF supported</p>
+        </div>
+        <input type="file" name="F1" id="photoInput" accept="image/*" style="display:none;" onchange="showFileName(this)">
+        <p id="fileName" style="font-size:0.8rem;color:#6259ca;margin-top:8px;font-weight:500;display:none;">
+          <i class="fas fa-file-image me-1"></i><span></span>
+        </p>
+      </div>
+
+      <div style="display:flex;gap:12px;">
+        <input type="submit" value="Upload Photo" style="flex:1;">
+        <a href="../admin_profile/" style="background:#e2e8f0;color:#555;padding:10px 20px;border-radius:8px;font-size:0.87rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+          <i class="fas fa-times"></i> Cancel
+        </a>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    function showFileName(input) {
+      if (input.files && input.files[0]) {
+        const label = document.getElementById('fileName');
+        label.style.display = 'block';
+        label.querySelector('span').textContent = input.files[0].name;
+      }
+    }
+  </script>
+
+{% endif %}
+
+{% endblock %}

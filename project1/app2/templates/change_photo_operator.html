@@ -1,0 +1,6 @@
+{% extends "a2.html" %}
+{% block m1 %}
+<h1>Change Photo</h1>
+{% if data %}<div style="background:rgba(9,173,149,0.1);border:1px solid rgba(9,173,149,0.3);padding:14px 18px;border-radius:8px;color:#09ad95;font-weight:600;margin-bottom:20px;"><i class="fas fa-check-circle me-2"></i>{{data}}</div>{% endif %}
+<a href="../operator_home/" style="display:inline-flex;align-items:center;gap:6px;background:#e2e8f0;color:#555;padding:9px 18px;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none;"><i class="fas fa-arrow-left me-1"></i> Back</a>
+{% endblock %}

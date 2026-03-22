@@ -1,0 +1,22 @@
+{% extends "a2.html" %}
+{% block m1 %}
+<h1>Operator Registration</h1>
+<div style="background:#fff;border-radius:14px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.07);max-width:560px;">
+<form method="post" action="../operator_reg/">
+    {% csrf_token %}
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Full Name</label><input type="text" name="T1" placeholder="Enter full name"></div>
+      <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Address</label><input type="text" name="T2" placeholder="Enter address"></div>
+      <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Contact</label><input type="text" name="T3" placeholder="Enter contact number"></div>
+      <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Email</label><input type="text" name="T4" placeholder="Enter email"></div>
+      <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Password</label><input type="text" name="T5" placeholder="Enter password"></div>
+      <div><label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:6px;">Confirm Password</label><input type="text" name="T6" placeholder="Confirm password"></div>
+      <div style="display:flex;gap:12px;margin-top:8px;">
+        <button type="submit" name="B1"><i class="fas fa-user-plus me-1"></i> Register</button>
+        <a href="../operator_home/" style="background:#e2e8f0;color:#555;padding:9px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back</a>
+      </div>
+    </div>
+</form>
+{% if data %}<div style="margin-top:18px;background:rgba(232,83,71,0.08);border:1px solid rgba(232,83,71,0.3);padding:12px 16px;border-radius:8px;color:#e85347;font-size:0.88rem;font-weight:500;"><i class="fas fa-exclamation-circle me-2"></i>{{data}}</div>{% endif %}
+</div>
+{% endblock %}

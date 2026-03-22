@@ -1,0 +1,105 @@
+{% extends "a2.html" %}
+{% block m1 %}
+<h1>Student Portal</h1>
+
+{% if data1 %}
+    {% for k in data1 %}
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,0.06);max-width:500px;">
+        <img src="../media/{{k.Photo}}" width="90" height="90" style="border-radius:50%;border:3px solid rgba(0,176,155,0.3);"/>
+        <form method="post" action="../change_photo_student_operator/">
+            {% csrf_token %}
+            <input type="hidden" name="H1" value="{{k.Email}}">
+            <button type="submit" name="B1" style="font-size:0.8rem;padding:7px 14px;"><i class="fas fa-camera me-1"></i> Change Photo</button>
+        </form>
+    </div>
+    {% endfor %}
+{% else %}
+{% for k in data %}
+    <div style="background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,0.06);margin-bottom:16px;max-width:480px;">
+        <form method="post" action="../upload_photo_student_operator/" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label style="display:block;font-size:0.82rem;font-weight:600;color:#444;margin-bottom:8px;"><i class="fas fa-camera me-1"></i> Upload Photo</label>
+            <input type="file" name="F1" style="display:block;padding:8px;border:1.5px dashed #00b09b;border-radius:8px;width:100%;margin-bottom:10px;">
+            <input type="hidden" name="H1" value="{{k.Email}}">
+            <input type="submit" name="B1" value="Upload Photo">
+        </form>
+    </div>
+{% endfor %}
+{% endif %}
+
+{% if data %}
+    {% for k in data %}
+    <div style="background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 16px rgba(0,0,0,0.06);margin-bottom:16px;max-width:560px;">
+        <table style="box-shadow:none;border-radius:0;margin-bottom:14px;">
+            <tr><td style="width:120px;font-weight:600;color:#555;font-size:0.85rem;">Name</td><td style="font-size:0.88rem;">{{k.Name}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Gender</td><td style="font-size:0.88rem;">{{k.Gender}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Address</td><td style="font-size:0.88rem;">{{k.Address}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Contact</td><td style="font-size:0.88rem;">{{k.Contact}}</td></tr>
+            <tr><td style="font-weight:600;color:#555;font-size:0.85rem;">Email</td><td style="font-size:0.88rem;">{{k.Email}}</td></tr>
+        </table>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <form method="post" action="../edit_student_operator/">
+                {% csrf_token %}
+                <input type="hidden" name="H1" value="{{k.Email}}">
+                <button type="submit" name="B1" style="font-size:0.82rem;padding:8px 16px;"><i class="fas fa-edit me-1"></i> Edit Profile</button>
+            </form>
+            <form method="post" action="../delete_student_operator/">
+                {% csrf_token %}
+                <input type="hidden" name="H1" value="{{k.Email}}">
+                <button type="submit" name="B1" style="font-size:0.82rem;padding:8px 16px;background:#e85347;"><i class="fas fa-trash me-1"></i> Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0 12px;">
+        <h2 style="font-size:1.2rem;font-weight:700;color:#0f2027;margin:0;">Enrolled Courses</h2>
+        <form method="post" action="../add_courses/">
+            {% csrf_token %}
+            <input type="hidden" name="H1" value="{{k.Email}}">
+            <input type="submit" name="B1" value="+ Add Course" style="font-size:0.82rem;padding:8px 16px;">
+        </form>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div style="overflow-x:auto;margin-bottom:20px;">
+<table>
+    <tr><th>#</th><th>Course Id</th><th>Course Name</th><th>Fees</th><th>Duration</th><th>Start Date</th><th>Paid</th><th>Due</th><th>Action</th></tr>
+{% if data2 %}
+{% for k in data2 %}
+    <tr>
+        <td>{{k.0}}</td><td>{{k.1}}</td><td>{{k.3}}</td><td>₹{{k.4}}</td><td>{{k.5}}</td><td>{{k.6}}</td>
+        <td style="color:#09ad95;font-weight:600;">₹{{k.7}}</td>
+        <td style="color:#e85347;font-weight:600;">₹{{k.8}}</td>
+        <td>
+            <form method="post" action="../pay_installment/">
+                {% csrf_token %}
+                <input type="hidden" name="H1" value="{{email}}">
+                <input type="hidden" name="H2" value="{{k.0}}">
+                <button type="submit" name="B1" style="font-size:0.78rem;padding:6px 12px;background:#09ad95;"><i class="fas fa-rupee-sign me-1"></i>Pay</button>
+            </form>
+        </td>
+    </tr>
+{% endfor %}
+{% endif %}
+</table>
+</div>
+
+<div style="display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap;">
+    <div style="background:#fff;border-radius:10px;padding:16px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:3px solid #00b09b;"><p style="font-size:0.72rem;color:#888;text-transform:uppercase;letter-spacing:1px;margin:0;">Total</p><h3 style="font-size:1.2rem;font-weight:700;color:#0f2027;margin:0;">₹{{total}}</h3></div>
+    <div style="background:#fff;border-radius:10px;padding:16px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:3px solid #09ad95;"><p style="font-size:0.72rem;color:#888;text-transform:uppercase;letter-spacing:1px;margin:0;">Paid</p><h3 style="font-size:1.2rem;font-weight:700;color:#09ad95;margin:0;">₹{{total_paid}}</h3></div>
+    <div style="background:#fff;border-radius:10px;padding:16px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:3px solid #e85347;"><p style="font-size:0.72rem;color:#888;text-transform:uppercase;letter-spacing:1px;margin:0;">Due</p><h3 style="font-size:1.2rem;font-weight:700;color:#e85347;margin:0;">₹{{total_due}}</h3></div>
+</div>
+
+<h2 style="font-size:1.2rem;font-weight:700;color:#0f2027;margin-bottom:12px;">Transaction History</h2>
+<div style="overflow-x:auto;">
+<table>
+    <tr><th>Transaction Id</th><th>Course ID</th><th>Amount</th><th>Date</th><th>Remark</th></tr>
+    {% if data3 %}{% for k in data3 %}
+    <tr><td>{{k.t_id}}</td><td>{{k.course_id}}</td><td style="color:#09ad95;font-weight:600;">₹{{k.amount}}</td><td>{{k.t_date}}</td><td>{{k.remark}}</td></tr>
+    {% endfor %}{% endif %}
+</table>
+</div>
+
+<a href="../operator_home/" style="display:inline-flex;align-items:center;gap:6px;background:#e2e8f0;color:#555;padding:9px 18px;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none;margin-top:16px;"><i class="fas fa-arrow-left"></i> Back</a>
+{% endblock %}
